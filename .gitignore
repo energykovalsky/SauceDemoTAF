@@ -1,0 +1,15 @@
+bin/
+obj/
+.vs/
+
+TestResults/
+
+*.user
+*.suo
+
+*.cache
+
+*.trx
+
+_ReSharper*/
+*.DotSettings.user
