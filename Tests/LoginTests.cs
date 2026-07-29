@@ -8,7 +8,7 @@ namespace SauceDemo.Tests.Tests;
 [Parallelizable(ParallelScope.Self)]
 public class LoginTests : BaseTest
 {
-    #region UC-1
+    #region Final Task - UC-1
 
     [Test]
     public void Login_WithMissingPassword_Should_ShowPasswordRequiredMessage()
@@ -34,11 +34,11 @@ public class LoginTests : BaseTest
 
     #endregion
 
-    #region UC-2
+    #region Final Task - UC-2
 
     [Test]
     [TestCaseSource(typeof(LoginTestCases), nameof(LoginTestCases.ValidUsers))]
-    public void Login_WithValidCredentials_Should_OpenInventoryPage(User user)
+    public void Login_WithValidCredentials_Should_LoadInventoryPage(User user)
     {
         // Act
 

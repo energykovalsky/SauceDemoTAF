@@ -100,7 +100,7 @@ public class LoginPage : BasePage
 
     public string GetPasswordValue()
     {
-        return Find(_passwordField).GetAttribute("value");
+        return Find(_passwordField).GetAttribute("value") ?? string.Empty;
     }
 
     public string GetCurrentUrl()

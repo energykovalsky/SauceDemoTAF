@@ -45,47 +45,53 @@ Example:
 
 ## Framework Architecture
 
-```mermaid
-flowchart TD
-
-    T[Tests]
-    BT[BaseTest]
-    PP[PageProvider]
-
-    WF[Business Workflows]
-    PO[Page Objects]
-    CMP[Components]
-
-    WAIT[WaitService]
-    BP[BasePage]
-
-    WD[Selenium WebDriver]
-
-    DM[DriverManager]
-    BF[BrowserFactory]
-    BOF[BrowserOptionsFactory]
-
-    CFG[ConfigurationManager]
-    APP[appsettings.json]
-
-    T --> BT
-    BT --> PP
-
-    PP --> WF
-    PP --> PO
-
-    PO --> CMP
-    PO --> BP
-    BP --> WAIT
-    WAIT --> WD
-
-    DM --> WD
-    BF --> DM
-    BOF --> BF
-
-    APP --> CFG
-    CFG --> DM
+```text
++-----------------------------------------------------------+
+|                       Tests (NUnit)                        |
++----------------------------+------------------------------+
+                             │
+                             ▼
++-----------------------------------------------------------+
+|                    Business Workflows                      |
+| LoginWorkflow | InventoryWorkflow | ProductWorkflow | Cart |
++----------------------------+------------------------------+
+                             │
+                             ▼
++-----------------------------------------------------------+
+|                     Page Objects (POM)                     |
+| LoginPage | InventoryPage | ProductPage | CartPage        |
++----------------------------+------------------------------+
+                             │
+                             ▼
++-----------------------------------------------------------+
+|                 Components & BasePage                      |
+| HeaderComponent | BasePage                                |
++----------------------------+------------------------------+
+                             │
+                             ▼
++-----------------------------------------------------------+
+|                  Framework Infrastructure                  |
+| WaitService | DriverManager | BrowserFactory              |
+| BrowserOptionsFactory | ConfigurationManager              |
++----------------------------+------------------------------+
+                             │
+                             ▼
++-----------------------------------------------------------+
+|                  Selenium WebDriver                        |
++-----------------------------------------------------------+
 ```
+
+### Design Principles
+
+The framework follows a layered architecture and applies the following design principles:
+
+- Page Object Model (POM)
+- Business Workflow layer
+- Factory Pattern
+- Configuration-driven execution
+- Explicit waits only (Implicit Wait = 0)
+- Constructor Dependency Injection
+- Separation of Concerns
 
 ---
 
@@ -118,31 +124,25 @@ SauceDemo.Tests
 
 ---
 
-## Design Principles
-
-The framework follows a layered architecture and applies the following design principles:
-
-- Page Object Model (POM)
-- Workflow layer for business actions
-- Factory pattern
-- Configuration-driven execution
-- Explicit waits only (Implicit Wait = 0)
-- Constructor Dependency Injection
-- Separation of concerns
-
----
-
 ## Implemented Test Scenarios
 
-### UC-1 — Login Validation
+### UC-1 – Login Validation
 
 Verify that an error message is displayed when attempting to log in without entering a password.
 
-### UC-2 — Successful Login
+### UC-2 – Successful Login
 
-Verify that a standard user can successfully log in and that the Inventory page is displayed with all required UI elements.
+Verify that a standard user can successfully log in and that the Inventory page is displayed with the required UI elements.
 
-### UC-3 — Add Product to Cart
+The test verifies:
+
+- Burger menu button
+- "Swag Labs" application title
+- Shopping cart icon
+- Product sorting dropdown
+- Product list
+
+### UC-3 – Add Product to Shopping Cart
 
 Verify that a product can be added to the shopping cart.
 
@@ -159,11 +159,24 @@ appsettings.json
 Available settings:
 
 | Setting | Description |
-|----------|-------------|
+|---------|-------------|
 | BaseUrl | Application URL |
 | Browser | Firefox / Edge / Chrome |
-| Headless | Run browser in headless mode |
+| Headless | Run browser without UI |
 | TimeoutSeconds | Explicit wait timeout |
+
+Example:
+
+```json
+{
+  "TestSettings": {
+    "BaseUrl": "https://www.saucedemo.com",
+    "Browser": "Firefox",
+    "Headless": false,
+    "TimeoutSeconds": 10
+  }
+}
+```
 
 ---
 
@@ -177,21 +190,23 @@ dotnet test
 
 Or execute tests using **Visual Studio Test Explorer**.
 
+To run the tests in another browser, update the **Browser** value in **appsettings.json**.
+
 ---
 
 ## Design Decisions
 
 The framework intentionally uses:
 
-- Explicit waits
-- Constructor Dependency Injection
 - Page Object Model
 - Business Workflows
-- Browser Factory
-- Centralized configuration
-- Lightweight Page Provider
+- Explicit waits only
+- Constructor Dependency Injection
+- Factory Pattern for browser creation
+- Configuration-driven browser selection
+- Centralized page initialization through `PageProvider`
 
-The project intentionally avoids unnecessary complexity such as IoC containers, WebDriverManager, and advanced reporting frameworks to keep the solution simple, maintainable, and appropriate for a junior-level automation framework while remaining extensible.
+The project intentionally avoids unnecessary complexity such as IoC containers, external driver management libraries, and reporting frameworks to keep the solution simple, maintainable, and appropriate for a junior-level automation framework while remaining extensible.
 
 ---
 
@@ -201,12 +216,20 @@ Possible future enhancements include:
 
 - Parallel cross-browser execution
 - CI/CD integration (GitHub Actions or Azure DevOps)
-- Test reporting (Allure or ExtentReports)
-- Structured logging
+- Allure or ExtentReports integration
+- Structured logging (Serilog / NLog)
 - Automatic screenshots on test failures
 - External data-driven testing
-- Browser execution via command-line arguments
+- Command-line browser selection
 - Docker support
+
+---
+
+## Repository
+
+```text
+git clone https://github.com/<your-github-username>/SauceDemoTAF.git
+```
 
 ---
 

@@ -1,6 +1,4 @@
-﻿using NUnit.Framework;
-
-namespace SauceDemo.Tests.Utilities;
+﻿namespace SauceDemo.Tests.Utilities;
 
 public static class TestLogger
 {
