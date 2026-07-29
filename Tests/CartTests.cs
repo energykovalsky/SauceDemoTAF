@@ -7,10 +7,11 @@ namespace SauceDemo.Tests.Tests;
 [Parallelizable(ParallelScope.Self)]
 public class CartTests : BaseTest
 {
-    #region Existing Tests
+    #region Cart 
+    // helper cart behavior tests
 
     [Test]
-    public void AddedProduct_Should_AppearInCart()
+    public void AddedProduct_Should_AppearInShoppingCart()
     {
         // Arrange
 
@@ -60,6 +61,7 @@ public class CartTests : BaseTest
     #endregion
 
     #region UC-3
+    // final task test
 
     [Test]
     public void Product_Should_BeAddedToShoppingCart()

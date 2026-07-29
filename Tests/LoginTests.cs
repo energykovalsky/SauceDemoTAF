@@ -38,7 +38,7 @@ public class LoginTests : BaseTest
 
     [Test]
     [TestCaseSource(typeof(LoginTestCases), nameof(LoginTestCases.ValidUsers))]
-    public void StandardUser_Should_LoginSuccessfully(User user)
+    public void Login_WithValidCredentials_Should_OpenInventoryPage(User user)
     {
         // Act
 
